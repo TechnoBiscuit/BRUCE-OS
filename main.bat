@@ -1,6 +1,9 @@
 @echo off
 :startup
 :startupanim
+start startup.wav
+start switch1.vbs
+start fullscreen.vbs
 echo Starting up BruceOS.
 timeout /t 1 /NOBREAK >nul
 cls
@@ -27,30 +30,34 @@ cls
 :datafilecheck
 if exist data.txt (
 echo BruceOS running correctly.
-goto :beginning
+goto :plugincheck
 ) else (
 echo ERROR 0001 - FATAL - DATA FILE CAN NOT BE FOUND.
 set "error=nodatafile"
 goto :errorhandling
 )
 
+:plugincheck
+if exist plugins\*.bat (
+echo Plugins found.
+goto :listplugins
+) else (
+echo No plugins found.
+goto :beginning
+)
+
 :beginning
 echo beginning
-SetLocal EnableDelayedExpansion
 pause
-Set _count=1
-For /f "tokens=*" %%A in ("data.txt") do (
-if !_count! EQU 1 ("Set /p "_Input=%%A")
-set /a _count+=1
-)
-pause
-if "%_Input%" == "false" (
-goto :startup
-) else (
-echo hi
-pause
-)
 goto :EOF
+
+:pluginhandling
+:listplugins
+echo List of plugins found:
+for %%f in (plugins\*.bat) do (
+echo %%f
+)
+goto :beginning
 
 :errorhandling
 if "%error%" == "nodatafile" (
@@ -68,4 +75,5 @@ echo hi
 )
 
 :EOF
+taskkill /f /im wscript.exe
 exit
