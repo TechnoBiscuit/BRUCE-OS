@@ -59,7 +59,13 @@ echo.
 set /p command=BruceOS^> 
 if "%command%"=="help" (
 echo.
-echo fullscreen         Take BruceOS in and out of fullscreen mode.
+echo cls               Clears the screen.
+echo.
+echo.
+echo exit              Close BruceOS
+echo.
+echo.
+echo fullscreen        Take BruceOS in and out of fullscreen mode.
 echo.
 echo.
 echo plugin
