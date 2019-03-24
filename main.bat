@@ -1,6 +1,7 @@
 @echo off
 :startup
 :startupanim
+title BruceOS
 start startup.wav
 start switch1.vbs
 start fullscreen.vbs
@@ -47,9 +48,75 @@ goto :beginning
 )
 
 :beginning
-echo beginning
-pause
-goto :EOF
+::echo beginning
+echo  ____________
+echo /            \
+echo ^|  BruceOS   ^|
+echo \____________/
+echo.
+:commandhandler
+:commandhandlerbeginning
+set /p command=BruceOS^> 
+if "%command%"=="help" (
+echo.
+echo fullscreen         Take BruceOS in and out of fullscreen mode.
+echo.
+echo.
+echo plugin
+echo.
+echo plugin -l         List all plugins.
+echo plugin -i [name]  Get info on a specific plugin.
+echo.
+echo.
+echo theme             Change the theme.
+echo.
+echo theme [name]      Set the theme.
+echo theme -r          Reset the theme.
+)
+
+if "%command%"==" " (
+echo Just a space isn't going to do anything.
+)
+
+if "%command%"=="plugin" (
+echo.
+echo USAGE:
+echo.
+echo -l         List all plugins.
+echo -i [name]  Get info on a specific plugin.
+echo.
+)
+
+if "%command%"=="plugin -l" (
+goto :commandlistplugins
+)
+
+if "%command%"=="plugin -i" (
+echo Not yet implemented.
+)
+
+if "%command%"=="cls" (
+cls
+)
+
+if "%command%"=="theme" (
+echo Not yet implemented.
+)
+
+if "%command%"=="fullscreen" (
+start fullscreen.vbs
+)
+
+if "%command%"=="exit" (
+echo And IIIIIIIIIIIIIIEEEEEEEIIIIIIIIIIIIIIEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIIIIIIIIII WILL ALWAYS REMEMBER,
+timeout /t 3 /NOBREAK >nul
+echo YOUUUUUUUUUUUUUUUUUUUUOOOUUUUUUUUUUUUOOOUUUUUUUUUUUUUU
+timeout /t 3 /NOBREAK >nul
+echo dont lev meh
+taskkill /f /im cmd.exe
+)
+set command=""
+goto :commandhandler
 
 :pluginhandling
 :listplugins
@@ -58,6 +125,12 @@ for %%f in (plugins\*.bat) do (
 echo %%f
 )
 goto :beginning
+:commandlistplugins
+echo List of plugins found:
+for %%f in (plugins\*.bat) do (
+echo %%f
+)
+goto :commandhandler
 
 :errorhandling
 if "%error%" == "nodatafile" (
